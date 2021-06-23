@@ -11,7 +11,10 @@ class BooksApp extends React.Component {
     booksOnShelves: [],
   };
 
-  //Get the books that are on shelves
+  /**
+   * @description gets all the books that are on the users shelf.
+   * @param None
+   **/
   getAllBooks() {
     BooksAPI.getAll().then((books) => {
       this.setState(() => ({
@@ -20,20 +23,29 @@ class BooksApp extends React.Component {
     });
   }
 
-  //When the component mounts get all the books that are assigned to a bookshelf
-  //for this instance of the App
+  /**
+   * @description When the component mounts get the books to populate the shelves.
+   * @param None
+   **/
   componentDidMount() {
     this.getAllBooks();
   }
 
-  //Add a book to a shelf from the search screen
+  /**
+   * @description Add a book to a shelf from the search screen
+   * @param books
+   **/
   handleChangeBook = (books) => {
     this.setState(() => ({
       booksOnShelves: books,
     }));
   };
 
-  //Update the book shelf when it changes on a book
+  /**
+   * @description Update the shelf on a book when it changes
+   * @param shelf - The shelf to change the book to
+   * @param bookId - The id of the book to change
+   **/
   updateBookShelf = (shelf, bookId) => {
     const workingBooks = [...this.state.booksOnShelves];
     const bookToUpdate = workingBooks.findIndex((book) => book.id === bookId);

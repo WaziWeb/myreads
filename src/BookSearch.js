@@ -17,6 +17,11 @@ class BookSearch extends Component {
     this.props.onSearchChange();
   };
 
+  /**
+   * @description Caters for searching for books and assigning shelves to books returned in the search results
+   * that are on a shelf. Resets search results
+   * @param event - query
+   **/
   updateQuery = (query) => {
     //get the search results from the API based on the search term provided,
     //add a shelf to all returned books, update the shelf to reflect any books that
@@ -59,17 +64,19 @@ class BookSearch extends Component {
     }));
   };
 
+  /**
+   * @description Updates the books shelf
+   * @param shelf - shelf to update to
+   * @param bookId - id of the book to update
+   **/
   updateBook(shelf, bookId) {
     const workingBooks = [...this.state.books];
-
     const bookToUpdate = workingBooks.findIndex((book) => book.id === bookId);
     workingBooks[bookToUpdate].shelf = shelf;
     this.setState(() => ({
       books: workingBooks,
     }));
-
     this.props.booksOnShelves.push(workingBooks[bookToUpdate]);
-
     this.props.updateBooksOnShelves(this.props.booksOnShelves);
   }
 

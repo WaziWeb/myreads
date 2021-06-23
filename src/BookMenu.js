@@ -2,6 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function BookMenu(props) {
+  /**
+   * @description pass the change shelf event up the chain and update books shelf on the server
+   * @param event - The shelf to change the book to
+   **/
   const handleShelfChange = (event) => {
     const value = event.target.value;
     props.onChangeShelf(value, props.bookToShow.id);

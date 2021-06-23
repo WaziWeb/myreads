@@ -5,10 +5,16 @@ import BookMenu from "./BookMenu";
 
 function Book(props) {
   const { bookToShow, onBookChange } = props;
+
+  //Cater for books that do not have an image link
   const Image = bookToShow.hasOwnProperty("imageLinks") ? bookToShow.imageLinks.smallThumbnail : "";
 
+  /**
+   * @description gpass the change shelf event up the chain and update books shelf on the server
+   * @param shelf - The shelf to change the book to
+   * @param bookId - The id of the book to change
+   **/
   const handleChangeShelf = (shelf, bookId) => {
-    //console.log(shelf);
     BooksAPI.update(bookToShow, shelf);
     onBookChange(shelf, bookId);
   };
