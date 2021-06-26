@@ -8,7 +8,7 @@ function BookMenu(props) {
    **/
   const handleShelfChange = (event) => {
     const value = event.target.value;
-    props.onChangeShelf(value, props.bookToShow.id);
+    props.onChangeShelf(value, props.bookToShow);
   };
 
   return (

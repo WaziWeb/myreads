@@ -10,13 +10,13 @@ function Book(props) {
   const Image = bookToShow.hasOwnProperty("imageLinks") ? bookToShow.imageLinks.smallThumbnail : "";
 
   /**
-   * @description gpass the change shelf event up the chain and update books shelf on the server
+   * @description pass the change shelf event up the chain and update books shelf on the server
    * @param shelf - The shelf to change the book to
    * @param bookId - The id of the book to change
    **/
-  const handleChangeShelf = (shelf, bookId) => {
+  const handleChangeShelf = (shelf, book) => {
     BooksAPI.update(bookToShow, shelf);
-    onBookChange(shelf, bookId);
+    onBookChange(shelf, book);
   };
 
   return (

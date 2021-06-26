@@ -32,30 +32,35 @@ class BooksApp extends React.Component {
   }
 
   /**
-   * @description Add a book to a shelf from the search screen
-   * @param books
-   **/
-  handleChangeBook = (books) => {
-    this.setState(() => ({
-      booksOnShelves: books,
-    }));
-  };
-
-  /**
    * @description Update the shelf on a book when it changes
    * @param shelf - The shelf to change the book to
    * @param bookId - The id of the book to change
    **/
-  updateBookShelf = (shelf, bookId) => {
+  updateBookShelf = (shelf, bookChanging) => {
     const workingBooks = [...this.state.booksOnShelves];
-    const bookToUpdate = workingBooks.findIndex((book) => book.id === bookId);
-    workingBooks[bookToUpdate].shelf = shelf;
+    const bookToUpdate = workingBooks.findIndex((book) => book.id === bookChanging.id);
+    //If the book is on the shelf update to the new shelf.
+    if (bookToUpdate !== -1) {
+      workingBooks[bookToUpdate].shelf = shelf;
+    }
+    //else add the book to the shelf
+    else {
+      bookChanging.shelf = shelf;
+      workingBooks.push(bookChanging);
+    }
+    //Set the state to the new state
     this.setState(() => ({
-      displayBooks: workingBooks,
+      booksOnShelves: workingBooks,
     }));
   };
 
   render() {
+    const shelves = [
+      { display: "Currently Reading", label: "currentlyReading" },
+      { display: "Want to Read", label: "wantToRead" },
+      { display: "Read", label: "read" },
+    ];
+
     return (
       <div className="app">
         <div className="list-books">
@@ -66,36 +71,28 @@ class BooksApp extends React.Component {
             <Route
               exact
               path="/"
-              render={() => (
-                <div>
-                  <BookShelf
-                    booksOnShelves={this.state.booksOnShelves}
-                    shelfLabel="currentlyReading"
-                    shelfDisplayName="Currently Reading"
-                    onBookChange={(shelf, bookId) => this.updateBookShelf(shelf, bookId)}
-                  />
-                  <BookShelf
-                    booksOnShelves={this.state.booksOnShelves}
-                    shelfLabel="wantToRead"
-                    shelfDisplayName="Want To Read"
-                    onBookChange={(shelf, bookId) => this.updateBookShelf(shelf, bookId)}
-                  />
-                  <BookShelf
-                    booksOnShelves={this.state.booksOnShelves}
-                    shelfLabel="read"
-                    shelfDisplayName="Read"
-                    onBookChange={(shelf, bookId) => this.updateBookShelf(shelf, bookId)}
-                  />
-                  <div className="open-search">
-                    <Link to="/search" className="open-search-link">
-                      Search
-                    </Link>
+              render={() =>
+                shelves.map((shelf, item) => (
+                  <div>
+                    <BookShelf
+                      key={item}
+                      booksOnShelves={this.state.booksOnShelves}
+                      shelfLabel={shelf.label}
+                      shelfDisplayName={shelf.display}
+                      onBookChange={(shelf, book) => this.updateBookShelf(shelf, book)}
+                    />
+                    <div className="open-search">
+                      <Link to="/search" className="open-search-link">
+                        Search
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              )}
+                ))
+              }
             />
           </div>
-          <Route path="/search" render={() => <BookSearch booksOnShelves={this.state.booksOnShelves} updateBooksOnShelves={(book) => this.handleChangeBook(book)} />} />
+
+          <Route path="/search" render={() => <BookSearch booksOnShelves={this.state.booksOnShelves} onBookChange={(shelf, book) => this.updateBookShelf(shelf, book)} />} />
         </div>
       </div>
     );

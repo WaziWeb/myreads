@@ -7,8 +7,7 @@ import Book from "./Book";
 class BookSearch extends Component {
   static propTypes = {
     booksOnShelves: PropTypes.array.isRequired,
-    onBookChange: PropTypes.func,
-    updateBooksOnShelves: PropTypes.func,
+    onBookChange: PropTypes.func.isRequired,
   };
 
   state = { books: [], query: "" };
@@ -46,6 +45,11 @@ class BookSearch extends Component {
             this.setState(() => ({
               books: books,
             }));
+          } else {
+            //When the API returns an error set the search results to blank
+            this.setState(() => ({
+              books: [],
+            }));
           }
         })
         .catch((error) => {
@@ -69,15 +73,15 @@ class BookSearch extends Component {
    * @param shelf - shelf to update to
    * @param bookId - id of the book to update
    **/
-  updateBook(shelf, bookId) {
+  updateBook(shelf, bookChanging) {
     const workingBooks = [...this.state.books];
-    const bookToUpdate = workingBooks.findIndex((book) => book.id === bookId);
+    const bookToUpdate = workingBooks.findIndex((book) => book.id === bookChanging.id);
     workingBooks[bookToUpdate].shelf = shelf;
     this.setState(() => ({
       books: workingBooks,
     }));
-    this.props.booksOnShelves.push(workingBooks[bookToUpdate]);
-    this.props.updateBooksOnShelves(this.props.booksOnShelves);
+
+    this.props.onBookChange(shelf, bookChanging);
   }
 
   render() {
