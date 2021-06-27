@@ -97,8 +97,8 @@ class BookSearch extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {books.map((displayOnShelf, index) => (
-              <li key={index}>
+            {books.map((displayOnShelf) => (
+              <li key={displayOnShelf.id}>
                 <Book
                   bookToShow={displayOnShelf}
                   onBookChange={(shelf, bookId) => {

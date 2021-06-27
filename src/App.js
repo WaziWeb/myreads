@@ -68,24 +68,23 @@ class BooksApp extends React.Component {
             <h1>MyReads</h1>
           </div>
           <div className="list-books-content">
+            <div className="open-search">
+              <Link to="/search" className="open-search-link">
+                Search
+              </Link>
+            </div>
             <Route
               exact
               path="/"
               render={() =>
-                shelves.map((shelf, item) => (
-                  <div>
+                shelves.map((shelf) => (
+                  <div key={shelf.label}>
                     <BookShelf
-                      key={item}
                       booksOnShelves={this.state.booksOnShelves}
                       shelfLabel={shelf.label}
                       shelfDisplayName={shelf.display}
                       onBookChange={(shelf, book) => this.updateBookShelf(shelf, book)}
                     />
-                    <div className="open-search">
-                      <Link to="/search" className="open-search-link">
-                        Search
-                      </Link>
-                    </div>
                   </div>
                 ))
               }

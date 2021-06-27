@@ -31,7 +31,7 @@ function Book(props) {
               backgroundImage: `url(${Image})`,
             }}
           />
-          <BookMenu bookToShow={bookToShow} onChangeShelf={handleChangeShelf} />
+          <BookMenu key={bookToShow.id} bookToShow={bookToShow} onChangeShelf={handleChangeShelf} />
         </div>
         <div className="book-title">{bookToShow.title}</div>
         <div className="book-authors">{bookToShow.authors}</div>

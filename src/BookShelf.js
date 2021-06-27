@@ -12,8 +12,8 @@ class BookShelf extends Component {
           <ol className="books-grid">
             {booksOnShelves
               .filter((book) => book.shelf === shelfLabel)
-              .map((displayOnShelf, index) => (
-                <li key={displayOnShelf.industryIdentifiers[0].identifier}>
+              .map((displayOnShelf) => (
+                <li key={displayOnShelf.id}>
                   <Book
                     bookToShow={displayOnShelf}
                     onBookChange={(shelf, book) => {
